@@ -11,7 +11,7 @@ namespace TestTask.Drivers
             if (TestConfiguration.Browser.ToLower() == "chrome")
             {
                 var options = new ChromeOptions();
-                // options.AddArgument("--headless");
+                //options.AddArgument("--headless");
                 return new ChromeDriver(options);
             }
 

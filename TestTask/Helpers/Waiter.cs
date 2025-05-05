@@ -37,11 +37,7 @@ namespace TestTask.Helpers
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
             wait.Until(d => d.Url.Contains(url));
-            var element = wait.Until(d =>
-            {
-                var el = d.FindElement(locator);
-                return (el.Displayed && el.Enabled) ? el : null;
-            });
+            var element = FindElement(locator);
 
             ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", element);
         }

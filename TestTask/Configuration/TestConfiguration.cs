@@ -20,6 +20,5 @@ namespace TestTask.Configuration
         public static string Username => config["Username"];
         public static string Password => config["Password"];
         public static string Browser => config["Browser"];
-        public static int TimeoutInSeconds => int.Parse(config["TimeoutInSeconds"]);
     }
 }
