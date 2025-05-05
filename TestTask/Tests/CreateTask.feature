@@ -13,6 +13,7 @@ Feature: Tasks
         And I select a project
         And I leave the default status
         When I save the task
+        And I click Return to list button
         Then I should be able to find task using search
         Then The task should be visible with correct name
         And Task should have correct project

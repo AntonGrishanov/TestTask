@@ -14,6 +14,7 @@ namespace TestTask.Pages
         private IWebElement StartDateInput => WaitAndFind(By.Id("DetailFormdate_start-input"));
         private IWebElement DueDateInput => WaitAndFind(By.Id("DetailFormdate_due-input"));
         private IWebElement SaveButton => WaitAndFind(By.Id("DetailForm_save"));
+        private IWebElement ReturnButton => WaitAndFind(By.Id("DetailForm_return_list"));
         public string TaskName { get; private set; }
         public string ProjectName { get; private set; }
         public string Status { get; private set; }
@@ -75,6 +76,11 @@ namespace TestTask.Pages
         public void ClickSave()
         {
             SaveButton.Click();
+        }
+
+        public void ClickReturn()
+        {
+            ReturnButton.Click();
         }
     }
 }

@@ -78,6 +78,11 @@ namespace TestTask.StepDefinitions
         {
             createTaskPage.ClickSave();
         }
+        [When(@"I click Return to list button")]
+        public void IClickReturnToList()
+        {
+            createTaskPage.ClickReturn();
+        }
         [Then(@"I should be able to find task using search")]
         public void IShouldBeAbleToFindTaskUsingSearch()
         {

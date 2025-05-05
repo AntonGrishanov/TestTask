@@ -32,8 +32,6 @@ namespace TestTask.Pages
 
         public void SearchForATask(string taskName)
         {
-            ProjectManagementTab.Click();
-            GoToModuleButton.Click();
             SearchInput.SendKeys(taskName);
             actions.SendKeys(Keys.Enter).Perform();
         }

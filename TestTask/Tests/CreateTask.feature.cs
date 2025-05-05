@@ -118,18 +118,21 @@ namespace TestTask.Tests
         testRunner.When("I save the task", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
-        testRunner.Then("I should be able to find task using search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.And("I click Return to list button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
-        testRunner.Then("The task should be visible with correct name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.Then("I should be able to find task using search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 18
-        testRunner.And("Task should have correct project", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.Then("The task should be visible with correct name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 19
-        testRunner.And("Task should have correct dates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("Task should have correct project", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
+        testRunner.And("Task should have correct dates", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 21
         testRunner.And("Task should have correct status", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
