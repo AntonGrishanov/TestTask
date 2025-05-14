@@ -94,10 +94,10 @@ namespace TestTask.Tests
         testRunner.Given("I am logged into the system", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
-        testRunner.And("I opened the Project Management tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("I\'ve opened the Project Management tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
-        testRunner.And("I opened My Opened Project tasks module", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+        testRunner.And("I\'ve opened My Opened Project tasks module", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
         testRunner.When("I click the Create button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -121,7 +121,7 @@ namespace TestTask.Tests
         testRunner.And("I click Return to list button", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 17
-        testRunner.Then("I should be able to find task using search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+        testRunner.When("I search for a task using search", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 18
         testRunner.Then("The task should be visible with correct name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

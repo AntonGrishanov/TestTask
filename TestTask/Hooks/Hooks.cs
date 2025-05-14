@@ -19,7 +19,7 @@ public class Hooks
         var driver = DriverFactory.CreateDriver();
         driver.Navigate().GoToUrl("https://demo.1crmcloud.com");
         driver.Manage().Window.Maximize();
-        _container.RegisterInstanceAs<IWebDriver>(driver);
+        _container.RegisterInstanceAs(driver);
     }
 
     [AfterScenario]

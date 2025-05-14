@@ -1,114 +1,129 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.BiDi.Modules.Log;
-using System;
-using System.Diagnostics.Metrics;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using TechTalk.SpecFlow;
 using TestTask.Configuration;
-using TestTask.Drivers;
+using TestTask.Models;
 using TestTask.Pages;
 
 namespace TestTask.StepDefinitions
 {
     [Binding]
-    public class CreateTask
+    public class CreateTask : BasePage
     {
-        private readonly IWebDriver driver;
-        private readonly LoginPage loginPage;
-        private readonly ProjectManagementPage projectPage;
-        private readonly CreateTaskPage createTaskPage;
-        private readonly TaskPage taskPage;
+        private readonly IWebDriver _driver;
+        private readonly LoginPage _loginPage;
+        private readonly ProjectManagementPage _projectPage;
+        private readonly CreateTaskPage _createTaskPage;
+        private readonly TaskPage _taskPage;
 
-        public CreateTask(IWebDriver driver)
+        TaskDataModel taskData = new TaskDataModel
         {
-            this.driver = driver;
-            loginPage = new LoginPage(driver);
-            projectPage = new ProjectManagementPage(driver);
-            createTaskPage = new CreateTaskPage(driver);
-            taskPage = new TaskPage(driver);
+            TaskName = "AutoTask_" + DateTime.Now.ToString("yyyyMMdd_HHmmss")
+        };
+
+        public CreateTask(IWebDriver driver, LoginPage loginPage, ProjectManagementPage projectManagementPage, CreateTaskPage createTaskPage, TaskPage taskPage) : base(driver)
+        {
+            _driver = driver;
+            _loginPage = loginPage;
+            _projectPage = projectManagementPage;
+            _createTaskPage = createTaskPage;
+            _taskPage = taskPage;
         }
 
         [Given(@"I am logged into the system")]
         public void GivenIAmLoggedIn()
         {
-            loginPage.EnterUserName(TestConfiguration.Username);
-            loginPage.EnterPassword(TestConfiguration.Password);
-            loginPage.ClickLogin();
+            _loginPage.EnterUserName(TestConfiguration.Username);
+            _loginPage.EnterPassword(TestConfiguration.Password);
+            _loginPage.ClickLogin();
         }
-
-        [Given(@"I opened the Project Management tab")]
+        [Given(@"I've opened the Project Management tab")]
         public void IOpenedTheProjectManagementTab()
         {
-            projectPage.OpenProjectManagementTab();
+            _projectPage.OpenProjectManagementTab();
         }
-        [Given(@"I opened My Opened Project tasks module")]
+        [Given(@"I've opened My Opened Project tasks module")]
         public void IOpenedMyOpenedProjectTasksModule()
         {
-            projectPage.OpenProjectTasksPage();
+            _projectPage.OpenProjectTasksPage();
         }
         [When(@"I click the Create button")]
         public void IClickTheCreateButton()
         {
-            projectPage.ClickCreateTask();
+            _projectPage.ClickCreateTask();
         }
         [When(@"I enter task name")]
         public void IEnterTaskName()
         {
-            createTaskPage.EnterTaskName();
+            _createTaskPage.EnterTaskName(taskData.TaskName);
         }
         [When(@"I select start and due dates")]
         public void ISelectStartAndDueDates()
         {
-            createTaskPage.EnterStartDate();
-            createTaskPage.EnterDueDate();
+            _createTaskPage.ClickStartDate();
+            taskData.StartDate = EnterDate("#DetailFormdate_start-calendar-text input.input-text", DateTime.Today);
+            _createTaskPage.ClickDueDate();
+            taskData.DueDate = EnterDate("#DetailFormdate_due-calendar-text input.input-text", DateTime.Today.AddMonths(1));
         }
         [When(@"I select a project")]
         public void ISelectAProject()
         {
-            createTaskPage.SelectProject();
+            _createTaskPage.ClickPojects();
+
+            var iconProj = FindElement(By.CssSelector("div.active-icon.uii-extern.uii-lg.uii"));
+            iconProj.Click();
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            var projectLink = wait.Until(d =>
+            {
+                var link = d.FindElement(By.CssSelector("tr.listViewRow a.listViewNameLink"));
+                return (link.Displayed && link.Enabled) ? link : null;
+            });
+            taskData.ProjectName = projectLink.Text;
+            projectLink.Click();
         }
         [When(@"I leave the default status")]
         public void ILeaveTheDefaultStatus()
         {
-            createTaskPage.GetStatus();
+            _createTaskPage.AssignStatus();
         }
         [When(@"I save the task")]
         public void ISaveTheTask()
         {
-            createTaskPage.ClickSave();
+            _createTaskPage.ClickSave();
         }
         [When(@"I click Return to list button")]
         public void IClickReturnToList()
         {
-            createTaskPage.ClickReturn();
+            _createTaskPage.ClickReturn();
         }
-        [Then(@"I should be able to find task using search")]
-        public void IShouldBeAbleToFindTaskUsingSearch()
+        [When(@"I search for a task using search")]
+        public void WhenISearchForATaskUsingSearch()
         {
-            projectPage.SearchForATask(createTaskPage.TaskName);
-            projectPage.OpenFoundTask();
+            _projectPage.SearchForATask(taskData.TaskName);
+            _projectPage.OpenFoundTask();
         }
         [Then(@"The task should be visible with correct name")]
         public void TaskShouldBeVisibleWithCorrectName()
         {
-            Assert.That(taskPage.GetTaskName(), Is.EqualTo(createTaskPage.TaskName), "Task name mismatch");
+            Assert.That(_taskPage.GetTaskName(), Is.EqualTo(taskData.TaskName), "Task name mismatch");
         }
         [Then(@"Task should have correct project")]
         public void TaskShouldHaveCorrectProject()
         {
-            Assert.That(taskPage.GetProjectName(), Is.EqualTo(createTaskPage.ProjectName), "Project name mismatch");
+            Assert.That(_taskPage.GetProjectName(), Is.EqualTo(taskData.ProjectName), "Project name mismatch");
         }
         [Then(@"Task should have correct dates")]
         public void TaskShouldHaveCorrectDates()
         {
-            Assert.That(taskPage.GetStartDate(), Is.EqualTo(createTaskPage.StartDate), "Start date mismatch");
-            Assert.That(taskPage.GetDueDate(), Is.EqualTo(createTaskPage.DueDate), "Due date mismatch");
+            Assert.That(_taskPage.GetStartDate(), Is.EqualTo(taskData.StartDate), "Start date mismatch");
+            Assert.That(_taskPage.GetDueDate(), Is.EqualTo(taskData.DueDate), "Due date mismatch");
         }
         [Then(@"Task should have correct status")]
         public void TaskShouldHaveCorrectStatus()
         {
-            Assert.That(taskPage.GetStatus(), Is.EqualTo(createTaskPage.Status), "Status mismatch");
+            Assert.That(_taskPage.GetStatus(), Is.EqualTo(_createTaskPage.TaskData.Status), "Status mismatch");
         }
     }
 }

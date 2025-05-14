@@ -1,17 +1,13 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.UI;
-using System;
-using TestTask.Helpers;
 
 namespace TestTask.Pages
 {
     public class ProjectManagementPage : BasePage
     {
-        private IWebElement ProjectManagementTab => WaitAndFind(By.Id("grouptab-3"));
-        private IWebElement GoToModuleButton => WaitAndFind(By.CssSelector("a[href=\"index.php?module=ProjectTask&action=index\"].tool-icon"));
-        private IWebElement SearchInput => WaitAndFind(By.Id("filter_text"));
-        private IWebElement СreateButton => WaitAndFind(By.Name("SubPanel_create"));
+        private IWebElement ProjectManagementTab => FindElement(By.Id("grouptab-3"));
+        private IWebElement GoToModuleButton => FindElement(By.CssSelector("a[href=\"index.php?module=ProjectTask&action=index\"].tool-icon"));
+        private IWebElement SearchInput => FindElement(By.Id("filter_text"));
+        private IWebElement СreateButton => FindElement(By.Name("SubPanel_create"));
 
         public ProjectManagementPage(IWebDriver driver) : base(driver) { }
 
@@ -27,7 +23,7 @@ namespace TestTask.Pages
 
         public void ClickCreateTask()
         {
-            waiter.JsClickElement("module=ProjectTask&action=index", By.Name("SubPanel_create"));
+            JsClickElement("module=ProjectTask&action=index", By.Name("SubPanel_create"));
         }
 
         public void SearchForATask(string taskName)
@@ -38,7 +34,7 @@ namespace TestTask.Pages
 
         public void OpenFoundTask()
         {
-            waiter.JsClickElement("module=ProjectTask&action=index&layout=Browse&list_limit", By.CssSelector("a.listViewNameLink"));
+            JsClickElement("module=ProjectTask&action=index&layout=Browse&list_limit", By.CssSelector("a.listViewNameLink"));
         }
     }
 }
